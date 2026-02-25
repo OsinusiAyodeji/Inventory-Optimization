@@ -71,7 +71,44 @@ Using **Power Pivot** and Pivot Tables, I calculated four critical Key Performan
 * **Stockout Frequency (1,955 items):** The count of specific products missing from the shelves.
   * *Method:* Counted dataset rows filtered for where the `Stockout` flag is **TRUE**.
 
-  
+  ## Analysis & Findings
+
+### Overstock Analysis: The "Dusty Box"
+To address the millions of dollars sitting uselessly in the warehouse, I analyzed the distribution of tied-up capital across the entire product catalog.
+
+#### Approach
+I summarized the **Total Inventory Value** by both **Product Name** and **Product Category**. This multi-level approach allowed me to determine if the overstocking was isolated to specific items or represented a broader systemic failure in procurement.
+
+#### Findings
+![Capital by Category](Capital%20Tied%20up%20by%20category.png)
+
+The analysis revealed that overstocking is a company-wide issue rather than an isolated category problem:
+* **Uniform Capital Distribution:** Tied-up capital is almost equally distributed across all major categories: **Accessories ($45.9M)**, **Electronics ($45.6M)**, and **Home Appliances ($44.6M)**.
+* **Top 5 Cash Traps (Dead Stock):** Five specific items are responsible for over **$85M** in stagnant capital:
+    1. **Smartwatch:** $17.44M
+    2. **TV:** $17.37M
+    3. **Tablet:** $17.08M
+    4. **Charger:** $16.98M
+    5. **Laptop:** $16.97M
+
+![Top 5 Cash Traps](capital%20tied%20up%20by%20product.png)
+
+* **Root Cause:** The uniformity of these high inventory levels across all categories confirms that the **308.4% Average Forecast Error** is an organizational-wide issue. The company is over-purchasing across the board due to a lack of data-driven demand planning.
+
+---
+
+## Recommendations: The Path to Recovery
+
+To fix these imbalances and stop the financial leakage, I recommend the following three-step plan:
+
+### 1. Host a "Cash Recovery" Sale
+We have millions of dollars sitting in the warehouse as "Dead Stock" (items like Smartwatches and TVs that aren't moving). We need to turn that physical stock back into cash immediately by running aggressive clearance sales or markdowns on these specific items. It is better to have the money in the bank than boxes on the shelf.
+
+### 2. Stop the "Guesswork" in Ordering
+Our current way of predicting what customers want is off by over **300%**. We need to stop "guessing" what to buy and start using a data-driven prediction model. By using actual sales trends to guide our purchases, we can make sure we stop over-buying things people don't want.
+
+### 3. Smart Reordering
+Instead of ordering the same amount of stock every time, we should set "Smart Reorder Points". This means the system should automatically tell us to buy more only when a product is actually selling fast, and hold off on ordering more of the slow-movers.
 
 
 
