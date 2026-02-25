@@ -71,6 +71,8 @@ Using **Power Pivot** and Pivot Tables, I calculated four critical Key Performan
 * **Stockout Frequency (1,955 items):** The count of specific products missing from the shelves.
   * *Method:* Counted dataset rows filtered for where the `Stockout` flag is **TRUE**.
 
+  
+
 
 
 
