@@ -5,11 +5,12 @@
 
 This project addresses the critical balance between overstocking and understocking within a retail environment. By analyzing inventory health, I identified **$136.1M** in tied-up capital and a **$2.99M** loss due to stockout costs. The analysis highlights significant inefficiencies, including a **308.4%** average forecast error, which directly impacts cash flow and customer satisfaction. Through this data-driven approach, the project pinpoints "Cash Traps" (dead stock) and "Ghost Revenue" (lost sales) to provide actionable insights for inventory optimization.
 
+---
 
+## Introduction
 
-## Background
+### Background
 In the retail sector, maintaining the right amount of stock is a constant challenge. This project explores the inventory dynamics of **Retail Solution Inc.** across three primary categories: Accessories, Electronics, and Home Appliances. The focus is on understanding how capital is distributed and where revenue "leaks" occur due to supply chain or forecasting failures.
-
 
 ### Business Problem Statement
 Retail Solutions Inc. is currently failing to balance supply with customer demand. Despite having historical data, the company is trapped in a cycle of **Inventory Imbalance**, oscillating between two expensive extremes that are hurting profitability:
@@ -26,106 +27,93 @@ The primary goal of this project is to develop a comprehensive **Inventory Healt
 * **Isolate Problematic SKUs:** Pinpoint specific items that contribute most to capital stagnation.
 * **Assess Forecasting Integrity:** Analyze the variance between predicted demand and actual sales to establish a baseline for procurement improvements.
 
+---
+
 ## Data Description
 
 ### Data Sources
-The primary dataset for this analysis was provided by **Retail Solution Inc.**, containing detailed records of inventory levels, sales performance, and procurement metrics across various product categories.
+The primary dataset for this analysis was provided by **Retail Solution Inc.**, containing records of inventory levels, sales performance, and procurement metrics.
 
 ### Data Collection
-The data was extracted from the organization's internal inventory management and sales reporting systems. The dataset provides a granular view of transactional history and stock status, enabling a deep dive into forecasting accuracy and capital allocation.
+The data was extracted from the organization's internal inventory management and sales reporting systems to provide a granular view of transactional history.
 
 ### Data Characteristics
-The dataset includes several key variables used to calculate inventory health metrics. Below is a breakdown of the core data fields:
+The dataset includes several key variables used to calculate inventory health metrics:
+* **Product Identifiers:** `Product_ID`, `Product_Name`, and `Product_Category`.
+* **Financial Metrics:** `Cost_Price`, `Selling_Price`, and `Profit_Margin`.
+* **Supply Chain Metrics:** `Lead_Time`, `Reorder_Point`, and `Reorder_Quantity`.
+* **Sales & Demand:** `Sales_Volume`, `Forecasted_Demand`, and `Demand_Variance`.
 
-* **Product Identifiers:** `Product_ID`, `Product_Name`, and `Product_Category` (Accessories, Electronics, and Home Appliances).
-* **Financial Metrics:** `Cost_Price`, `Selling_Price`, and `Profit_Margin` used to evaluate tied-up capital and potential revenue.
-* **Supply Chain Metrics:** `Lead_Time`, `Reorder_Point`, and `Reorder_Quantity` to assess procurement efficiency.
-* **Sales & Demand:** `Sales_Volume`, `Forecasted_Demand`, and `Demand_Variance` used to calculate forecasting errors.
-* **Inventory Health Indicators:** `Stockouts`, `Overstock`, `Overstock_Cost`, and `Stockout_Cost` (logical and numerical flags for identifying imbalances).
+---
 
 ## Methodology
 
 ### Data Cleaning & Transformation
-The initial data preparation was performed using **Power Query** to ensure data integrity and readiness for analysis. Key steps included:
-* **De-duplication:** Identified and removed fully duplicated rows to prevent inflated inventory valuations.
-* **Standardization:** Normalized necessary categorical columns to ensure consistent naming conventions across the dataset.
-* **Type Conversion:** Rectified incorrect data types by converting them into the required formats (e.g., numerical and date formats) for accurate processing.
-* **Feature Engineering:** Developed custom columns within Power Query, such as `Total_Inventory_Value` and `Abs_Error_Pct`, to facilitate the final analysis.
+The initial data preparation was performed using **Power Query** to ensure data integrity:
+* **De-duplication:** Identified and removed fully duplicated rows.
+* **Standardization:** Normalized categorical columns for consistency.
+* **Type Conversion:** Rectified incorrect data types into required formats (e.g., numerical and date formats).
+* **Feature Engineering:** Developed custom columns such as `Total_Inventory_Value` and `Abs_Error_Pct`.
 
 ### Exploratory Data Analysis (EDA)
-I utilized the **Data Profiling tools** in Power Query to perform an initial examination of the data.
+I utilized the **Data Profiling tools** in Power Query to perform an initial examination of the data:
 * **Profiling:** Inspected each column to understand data distribution, quality, and to identify potential outliers.
-* **Integrated Workflow:** Both cleaning and exploratory analysis were handled within Power Query to ensure a streamlined and efficient transformation process.
+* **Integrated Workflow:** Both cleaning and exploratory analysis were handled within Power Query.
 
 ### Statistical Analysis & KPI Development
-Using **Power Pivot** and Pivot Tables, I calculated four critical Key Performance Indicators (KPIs) to quantify the business impact of the current inventory state:
+Using **Power Pivot** and Pivot Tables, I calculated four critical KPIs:
 
 ![Inventory Optimization KPIs](Inventory%20Optimization%20KPI's.png)
 
-* **Total Inventory Value ($136.1M):** Represents the value of capital currently tied up in unsold stock.
-  * *Formula:* `[Current_Stock_Level] * [Cost_Price]` (Aggregated via Sum in Pivot Table).
-* **Stockout Cost ($2.99M):** The estimated revenue lost because customers wanted to buy, but shelves were empty.
-  * *Method:* Sum of the `Stockout_Cost` column calculated via Pivot Table.
-* **Average Forecast Error (308.4%):** A measure of how far off predictions are from reality, indicating a reliance on "blind guessing."
+* **Total Inventory Value ($136.1M):** Value of capital currently tied up in unsold stock.
+  * *Formula:* `[Current_Stock_Level] * [Cost_Price]`.
+* **Stockout Cost ($2.99M):** Estimated revenue lost because shelves were empty.
+* **Average Forecast Error (308.4%):** Measure of how far off predictions are from reality.
   * *Formula:* `Average of (Number.Abs([Forecasted_Demand] - [Sales_Volume]) / [Sales_Volume])`.
-* **Stockout Frequency (1,955 items):** The count of specific products missing from the shelves.
-  * *Method:* Counted dataset rows filtered for where the `Stockout` flag is **TRUE**.
+* **Stockout Frequency (1,955 items):** Count of specific products missing from the shelves.
 
-  ## Analysis & Findings
+---
+
+## Analysis & Findings
 
 ### Overstock Analysis: The "Dusty Box"
-To address the millions of dollars sitting uselessly in the warehouse, I analyzed the distribution of tied-up capital across the entire product catalog.
-
 #### Approach
-I summarized the **Total Inventory Value** by both **Product Name** and **Product Category**. This multi-level approach allowed me to determine if the overstocking was isolated to specific items or represented a broader systemic failure in procurement.
+I summarized the **Total Inventory Value** by both **Product Name** and **Product Category** to determine where capital is being tied up.
 
 #### Findings
 ![Capital by Category](Capital%20Tied%20up%20by%20category.png)
 
-The analysis revealed that overstocking is a company-wide issue rather than an isolated category problem:
-* **Uniform Capital Distribution:** Tied-up capital is almost equally distributed across all major categories: **Accessories ($45.9M)**, **Electronics ($45.6M)**, and **Home Appliances ($44.6M)**.
-* **Top 5 Cash Traps (Dead Stock):** Five specific items are responsible for over **$85M** in stagnant capital:
-    1. **Smartwatch:** $17.44M
-    2. **TV:** $17.37M
-    3. **Tablet:** $17.08M
-    4. **Charger:** $16.98M
-    5. **Laptop:** $16.97M
+* **Uniform Capital Distribution:** Tied-up capital is almost equally distributed across categories: **Accessories ($45.9M)**, **Electronics ($45.6M)**, and **Home Appliances ($44.6M)**.
+* **Top 5 Cash Traps (Dead Stock):** Five specific items are responsible for over **$85M** in stagnant capital, including Smartwatches (**$17.44M**) and TVs (**$17.37M**).
 
 ![Top 5 Cash Traps](capital%20tied%20up%20by%20product.png)
 
-* **Root Cause:** The uniformity of these high inventory levels across all categories confirms that the **308.4% Average Forecast Error** is an organizational-wide issue. The company is over-purchasing across the board due to a lack of data-driven demand planning.
+### Stockout Analysis: The "Empty Shelf"
+#### Approach
+I analyzed the **Stockout Cost** and **Frequency** across categories to identify revenue leaks.
+
+#### Findings
+![Where is Revenue Leaking](Revenue%20leak%20by%20category.png)
+
+* **Revenue Leakage:** We have lost an estimated **$2.99M** in sales because products were unavailable.
+* **Top 5 "Ghost Revenue" Items:** Chargers (**$386K**) and Smartwatches (**$380K**) suffered the highest lost sales.
+
+![Top 5 Ghost Revenue Items](Revenue%20leaks%20by%20product%20name.png)
 
 ---
 
-## Recommendations: The Path to Recovery
-
-To fix these imbalances and stop the financial leakage, I recommend the following three-step plan:
+## Recommendations
 
 ### 1. Host a "Cash Recovery" Sale
-We have millions of dollars sitting in the warehouse as "Dead Stock" (items like Smartwatches and TVs that aren't moving). We need to turn that physical stock back into cash immediately by running aggressive clearance sales or markdowns on these specific items. It is better to have the money in the bank than boxes on the shelf.
+Immediately run aggressive clearance sales on **Top 5 Cash Trap** items (Smartwatches, TVs, etc.) to convert dead stock into liquid cash. 
 
-### 2. Stop the "Guesswork" in Ordering
-Our current way of predicting what customers want is off by over **300%**. We need to stop "guessing" what to buy and start using a data-driven prediction model. By using actual sales trends to guide our purchases, we can make sure we stop over-buying things people don't want.
+### 2. Prioritize "Must-Have" Items
+Shift recovered cash into buying high-demand items like Chargers and Headphones to stop the **$2.99M** revenue leakage.
 
-### 3. Smart Reordering
-Instead of ordering the same amount of stock every time, we should set "Smart Reorder Points". This means the system should automatically tell us to buy more only when a product is actually selling fast, and hold off on ordering more of the slow-movers.
+### 3. Stop the "Guesswork" in Ordering
+Replace the current "guessing" system with a data-driven prediction model to reduce the **308.4% error rate**.
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Conclusion: Moving from Reactive to Proactive
+The "Inventory Health Check" reveals that Retail Solutions Inc. is not suffering from a lack of data, but a lack of **data-driven decision-making**. By identifying that overstocking and stockouts are organizational-wide symptoms of a **308.4% forecast error**, this project provides a clear roadmap to recovery. Implementing the recommended "Smart Reordering" and liquidating "Cash Traps" will allow the business to stop hoarding what it doesn't need and start providing what its customers actually want. This transition will protect the bottom line, free up millions in working capital, and significantly improve customer trust.
