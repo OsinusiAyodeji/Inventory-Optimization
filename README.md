@@ -60,7 +60,7 @@ I utilized the **Data Profiling tools** in Power Query to perform an initial exa
 ### Statistical Analysis & KPI Development
 Using **Power Pivot** and Pivot Tables, I calculated four critical Key Performance Indicators (KPIs) to quantify the business impact of the current inventory state:
 
-![Inventory Optimization KPIs](path/to/your/KPI_image.png)
+![Inventory Optimization KPIs](Inventory%20Optimization%20KPI's.png)
 
 * **Total Inventory Value ($136.1M):** Represents the value of capital currently tied up in unsold stock.
   * *Formula:* `[Current_Stock_Level] * [Cost_Price]` (Aggregated via Sum in Pivot Table).
